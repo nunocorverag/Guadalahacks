@@ -57,6 +57,15 @@ return function (RouteBuilder $routes): void {
          */
         $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
+        // Pa calar
+        $builder->post(
+            '/sendRequestToChatGPT', ['controller'=>'Users', 'action'=>'sendRequestToChatGPT']
+        );
+
+        // Users
+        $builder->post(
+            '/sendTheme', ['controller'=>'Users', 'action'=>'sendTheme']
+        );
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
          */
