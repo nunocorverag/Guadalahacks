@@ -6,7 +6,9 @@ CookAI es una página web que utiliza una conexión con chatgpt :robot: para pod
 ## Para ejecutar Cook AI en Windows:
  - Descargar [MAMP](https://www.mamp.info/en/downloads/) :mechanical_arm:	
  - Descargar la última versión de [NodeJS](https://nodejs.org/en/download/prebuilt-installer) :knot:	
- - Descargar [Composer](https://getcomposer.org/download/) :bow:	y asignar la versión más nueva de python incluida en la carpeta de bin de MAMP :eyes:	
+ - Descargar [Composer](https://getcomposer.org/download/) :bow:	y asignar la versión más nueva de python incluida en la carpeta de bin de MAMP :eyes:
+  
+
   ![image](https://github.com/nunocorverag/Guadalahacks/assets/146213118/cc55b17a-6ed1-488c-a9e8-1b6271093754)
 
  - En tu terminal, navegar hasta la carpeta de CookAIClient
