@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\api;
+use App\Controller\AppController;
 
 use Cake\Event\Event;
 
@@ -21,18 +22,22 @@ class UsersController extends AppController
 
     public function sendTheme()
     {
-        $msg = $this->request->getData("msg");
+        $topic = $this->request->getData("topic");
 
         $res = $this->response->withStatus(400);
 
+        $msg = $topic;
+
         $data = $this->sendRequestToChatGPT($msg);
 
-        if($data == -1){
-            return $res->withType('application/json')->withStringBody(json_encode("Error al conectar con ChatGPT"));
+        if ($data[0] == -1) {
+            $data["error"] = $data[1];
+            return $res->withType('application/json')->withStringBody(json_encode($data["error"]));
         }
 
         $res = $this->response->withStatus(200);
 
-        return $res->withType('application/json')->withStringBody(json_encode($data));
+        $data["info"] = $data[1];
+        return $res->withType('application/json')->withStringBody(json_encode($data["info"]));
     }
 }

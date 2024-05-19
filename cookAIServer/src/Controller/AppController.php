@@ -15,8 +15,9 @@ declare(strict_types=1);
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
 namespace App\Controller;
-
+use \DateTime;
 use Cake\Controller\Controller;
+use Cake\Utility\Hash;
 
 /**
  * Application Controller
@@ -73,7 +74,7 @@ class AppController extends Controller
             $error = curl_error($ch);
             error_log('cURL error: ' . $error); // Registra el error en el registro de errores del servidor
             $responseData = "Error en la solicitud cURL: " . $error;
-            return -1;
+            return [-1, $responseData];
         } else {
             // Si la solicitud cURL tiene éxito, procesa la respuesta
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -87,7 +88,7 @@ class AppController extends Controller
 
             if (isset($responseData['error'])) {
                 $responseData = 'Error: ' . $responseData['error']['message'];
-                return -1;
+                return [-1, $responseData];
             } else {
                 // $res = $this->response->withStatus(200);
                 $responseData = $responseData['choices'][0]['message']['content'] ?? 'No response content';
@@ -96,7 +97,7 @@ class AppController extends Controller
         
         curl_close($ch);
 
-        return ($responseData);
+        return [0, $responseData];
         // return $res->withType('application/json')->withStringBody(json_encode($responseData));
     }
 }

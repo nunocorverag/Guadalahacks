@@ -49,7 +49,7 @@ return function (RouteBuilder $routes): void {
      */
     $routes->setRouteClass(DashedRoute::class);
 
-    $routes->scope('/', function (RouteBuilder $builder): void {
+    $routes->scope('/api', function (RouteBuilder $builder): void {
         /*
          * Here, we are connecting '/' (base path) to a controller called 'Pages',
          * its action called 'display', and we pass a param to select the view file
@@ -64,7 +64,15 @@ return function (RouteBuilder $routes): void {
 
         // Users
         $builder->post(
-            '/sendTheme', ['controller'=>'Users', 'action'=>'sendTheme']
+            '/register', ['controller'=>'Access', 'action'=>'register', 'prefix'=>'api']
+        );
+
+        $builder->post(
+            '/login', ['controller'=>'Access', 'action'=>'login', 'prefix'=>'api']
+        );
+
+        $builder->post(
+            '/sendTheme', ['controller'=>'Users', 'action'=>'sendTheme', 'prefix'=>'api']
         );
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
