@@ -4,7 +4,7 @@ Proyecto guadalahacks - Hackathon Guadalajara 18-050-2024
 CookAI es una página web que utiliza una conexión con chatgpt :robot: para poder ofrecerle al usuario planes de estudio personalizados a un bajo y accesible costo :open_mouth: 
 
 ## Para ejecutar Cook AI en Windows:
- - Clonar el repositorio y cambiar a la branch de /"developing"/
+ - Clonar el repositorio y cambiar a la branch de "developing"
  - Descargar [MAMP](https://www.mamp.info/en/downloads/) :mechanical_arm:	
  - Descargar la última versión de [NodeJS](https://nodejs.org/en/download/prebuilt-installer) :knot:	
  - Descargar [Composer](https://getcomposer.org/download/) :bow:	y asignar la versión más nueva de python incluida en la carpeta de bin de MAMP :eyes:
