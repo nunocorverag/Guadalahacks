@@ -1,0 +1,20 @@
+<div class="container-fluid">
+    <div class="row">
+        <h1>Quiz</h1>
+        <div class="col-12">
+            <div class="logo-and-search">
+                <form (ngSubmit)="submitAnswers()" [ngClass]="{'was-validated': answersForm.submitted}" id="editForm" #answersForm="ngForm" autocomplete="off" novalidate>
+                    <div *ngFor="let item of questions; let i = index">
+                        <p>{{item.pregunta}}</p>
+                        <input type="text" [name]="i" [id]="'input' + i">
+                    </div>
+                    <button class="btn btn-primary mt-2 btn-sm" type="submit">Checar</button>
+                </form>
+            </div>
+        </div>
+        <div *ngIf="loading" class="progress mt-3" role="progressbar" aria-label="Animated striped example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar progress-bar-striped progress-bar-animated w-100"></div>
+        </div>
+
+    </div>
+</div>

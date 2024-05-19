@@ -162,13 +162,13 @@
             </h1>
             <form action="" class="courses-search">
                 <input type="text" name="searching" id="textInput" placeholder="Buscar en mis cursos...">
-                <button type="submit" >Buscar</button>
+                <button type="submit">Buscar</button>
             </form>
         </div>
         <div class="consult-button-group">
             <form action="" class="make-consult">
                 <p class="consult-text">¿Buscas realizar un nuevo curso?</p>
-                <input type="button" value="Realiza una consulta">
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Realiza una consulta</button>
             </form>
         </div>
     </header>
@@ -182,28 +182,57 @@
             <table class="course-table">
                 <thead>
                     <tr class="course-table-title">
-                        <th class="course-table-title"><h4 class="courses">
-                            Nombre:
-                        </h4></th>
-                        <th class="course-table-title"><h4 class="courses">
-                            Progreso:
-                        </h4></th>
+                        <th class="course-table-title">
+                            <h4 class="courses">
+                                Nombre:
+                            </h4>
+                        </th>
+                        <th class="course-table-title">
+                            <h4 class="courses">
+                                Progreso:
+                            </h4>
+                        </th>
                     </tr>
                 </thead>
                 <tbody *ngFor="let course of courses" class="course-table-subtitle">
                     <tr>
-                            <td class="course-table-subtitle">
-                                {{course.name}}
-                            </td>
-                            <td class="course-table-subtitle">
-                                {{course.progress}}
-                            </td>
-                            <td class="course-table-subtitle">
-                                <button>Ver curso</button>
-                            </td>
+                        <td class="course-table-subtitle">
+                            {{course.name}}
+                        </td>
+                        <td class="course-table-subtitle">
+                            {{course.progress}}
+                        </td>
+                        <td class="course-table-subtitle">
+                            <button>Ver curso</button>
+                        </td>
                     </tr>
                 </tbody>
-        </table>
+            </table>
         </div>
     </div>
 </main>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Realizar consulta</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">Introduce el tema a consultar</p>
+                <form (ngSubmit)="realizarConsulta()" [ngClass]="{'was-validated': consultaForm.submitted}" id="editarVehiculoForm" #consultaForm="ngForm" autocomplete="off" novalidate>
+                    <input ngModel type="text" class="form-control" maxlength="50" name="topic" id="topicAdd" required [disabled]="loading">
+                    <div class="invalid-feedback"> La consulta es requerida. </div>
+                    <br>
+                    <button #closeQueryModal type="button" class="btn btn-secondary my-2" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Consultar</button>
+                </form>
+                <div *ngIf="loading" class="progress mt-3" role="progressbar" aria-label="Animated striped example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated w-100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

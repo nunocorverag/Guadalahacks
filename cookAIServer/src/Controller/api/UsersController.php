@@ -111,7 +111,7 @@ class UsersController extends AppController
                 }
             }
     
-            $data['GPTResponse'] = $preguntas;
+            $data['Preguntas'] = $preguntas;
         } else {
             $data["error"] = "Error al guardar en la base de datos";
         }
@@ -168,8 +168,9 @@ class UsersController extends AppController
 
         // Obtener los cursos del usuario autenticado
         $questionsEntity = $this->fetchTable('Questions')
-                        ->find('all')
-                        ->where(['topic_id' => $topic_id]);
+            ->find('all')
+            ->select(['id', 'pregunta', 'dificultad', 'topic_id'])
+            ->where(['topic_id' => $topic_id]);
     
         if($questionsEntity){
             $data = ['questions' => $questionsEntity];
@@ -293,10 +294,7 @@ class UsersController extends AppController
                         $subTemaEntity = $this->fetchTable("SubTopics")->newEmptyEntity();
                         $subTemaEntity->name = $tema;
                         $subTemaEntity->topic_id = $topic_id; // Asigna el valor correcto de topic_id
-                        echo("Topic id");
-                        echo($topic_id);
                         $subTemaEntity->status = 0;
-                        var_dump($subTemaEntity);
                         $subTemaEntity->info = $subTemaInfo[1];
                         $resultSubTemaEntity = $this->fetchTable('SubTopics')->save($subTemaEntity);
                     }
@@ -304,6 +302,7 @@ class UsersController extends AppController
                         $data["error"] = "Fallo al realizar una query para un subtema";
                         return $res->withType('application/json')->withStringBody(json_encode($data));
                     }
+                    $res = $this->response->withStatus(200);
                 }
             }
         } else {
@@ -313,7 +312,6 @@ class UsersController extends AppController
 
         $subTemaEntity = $this->fetchTable("SubTopics")->find('all')->where(['topic_id' => $topic_id]);
 
-        $res = $this->response->withStatus(200);
         return $res->withType('application/json')->withStringBody(json_encode($subTemaEntity));
     }
 }
