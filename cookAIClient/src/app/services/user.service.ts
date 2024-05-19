@@ -26,7 +26,7 @@ export class UserService {
     });
     const body = { 
       email:email, 
-      pass:pass
+      password:pass
     };
 
     return this.http.post<any>(link, body, {headers});

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewChild} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
+import { AccessService } from '../../services/access.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ import { UserService } from '../../services/user.service';
 export class LoginComponent {
   @ViewChild("loginForm") loginForm:any;
 
-  constructor(private UserService: UserService) {}
+  constructor(private UserService: UserService, private accSrv:AccessService) {}
 
   Login(){
     if(this.loginForm.valid){
@@ -25,6 +26,7 @@ export class LoginComponent {
         response => {
           // Handle successful login
           console.log('Login successful', response);
+          this.setSession("token", response.token)
           //this.router.navigate(['/dashboard']);  // Redirect to the dashboard or another route
         },
         error => {
@@ -36,5 +38,9 @@ export class LoginComponent {
     } else {
       //this.errorMessage = 'Please enter your email and password.';
     }
+  }
+
+  setSession(name:string, obj:any){
+    this.accSrv.setSesion(name, obj);
   }
 }

@@ -89,7 +89,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
         return $middlewareQueue;
     }
-
+    
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
     {
         $service = new AuthenticationService();
@@ -97,21 +97,28 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             'username' => 'email',
             'password' => 'password'
         ];
+    
+        // Load Password Identifier
         $service->loadIdentifier('Authentication.Password', [
             'returnPayload' => false,
             'fields' => $fields,
         ]);
+    
+        // Load Form Authenticator
         $service->loadAuthenticator('Authentication.Form', [
             'fields' => $fields,
         ]);
-        if($request->getParam('prefix') === 'api'){
+    
+        // Load JWT specific configurations for API
+        if ($request->getParam('prefix') === 'api') {
             $service->loadIdentifier('Authentication.JwtSubject');
             $service->loadAuthenticator('Authentication.Jwt', [
-                'secretKey' => file_get_contents(CONFIG .'/jwt.pem'),
+                'secretKey' => file_get_contents(CONFIG . '/jwt.pem'),
                 'algorithm' => 'RS256',
                 'returnPayload' => false
             ]);
         }
+    
         return $service;
     }
 

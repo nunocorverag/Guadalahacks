@@ -24,7 +24,14 @@ class AccessController extends AppController
         $this->loadComponent('Authentication.Authentication');
         $this->Authentication->allowUnauthenticated(['test','login','register']);
 		$this->fetchTable('Users');
-
+        $this->response = $this->response->cors($this->request)
+            ->allowOrigin(['*'])
+            ->allowMethods(['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
+            ->allowHeaders(['X-CSRF-Token'])
+            ->allowCredentials()
+            ->exposeHeaders(['Link'])
+            ->maxAge(300)
+            ->build();
     }  
 
     public function login()

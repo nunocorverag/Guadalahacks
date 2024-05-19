@@ -3,11 +3,12 @@ import { CoursesService } from '../../services/courses.service';
 import { Route, Router } from '@angular/router';
 import { response } from 'express';
 import { error } from 'console';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.scss'
 })

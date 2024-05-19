@@ -20,7 +20,6 @@ class UsersController extends AppController
        
         parent::initialize();
         $this->loadComponent('Authentication.Authentication');
-        $this->Authentication->allowUnauthenticated(['sendTopic','getMyTopics','evaluateQuestions']);
     }  
 
     public function sendTopic()
