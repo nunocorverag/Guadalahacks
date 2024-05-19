@@ -8,10 +8,27 @@ import { CookieService } from 'ngx-cookie-service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserService {
-  constructor(private http: HttpClient, private authSrv: AccessService) { }
-  
-  validateCredentials(email: string, password: string) {
-      return this.http.post<any>('/api/validate', { email, password });
+  token:any="";
+
+  constructor(private http: HttpClient, private authSrv: AccessService) { 
+    if(this.authSrv.getSession()){
+      this.token=JSON.parse(this.authSrv.getSession());
+    }
+  }
+
+  validateCredentials(email: string, pass: string){
+
+    let link: string=Constantes.CAKE+"api/login";
+    let headers = new HttpHeaders({
+      'Content-Type':'application/json'
+    });
+    const body = { 
+      email:email, 
+      pass:pass
+    };
+
+    return this.http.post<any>(link, body, {headers});
   }
 }
