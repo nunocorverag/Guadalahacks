@@ -143,7 +143,7 @@
         }
         .course-panel {
             width: 100%;
-            text-align: left;
+            align-items: center;
         }
         .course-panel h2 {
             margin-top: 1.75rem;
@@ -161,8 +161,8 @@
                 CookAi
             </h1>
             <form action="" class="courses-search">
-                <input type="text" name="" id="" placeholder="Buscar en mis cursos...">
-                <input type="button" value="Buscar">
+                <input type="text" name="searching" id="textInput" placeholder="Buscar en mis cursos...">
+                <button type="submit" >Buscar</button>
             </form>
         </div>
         <div class="consult-button-group">
@@ -173,26 +173,37 @@
         </div>
     </header>
     <div class="container">
-        <div class="course-panel">
+        <div class="my-courses-title-group">
             <h2 class="my-courses-title">
                 Mis cursos
             </h2>
-            <div *ngFor="let course of courses">
-                <div>
-                    Curso: {{course.name}}
-                </div>
-            </div>
-            <h3 class="my-courses-welcome">
-                Bienvenido [Usuario]
-            </h3>
+        </div>
+        <div class="course-panel">
+            <table class="course-table">
+                <thead>
+                    <tr class="course-table-title">
+                        <th class="course-table-title"><h4 class="courses">
+                            Nombre:
+                        </h4></th>
+                        <th class="course-table-title"><h4 class="courses">
+                            Progreso:
+                        </h4></th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let course of courses" class="course-table-subtitle">
+                    <tr>
+                            <td class="course-table-subtitle">
+                                {{course.name}}
+                            </td>
+                            <td class="course-table-subtitle">
+                                {{course.progress}}
+                            </td>
+                            <td class="course-table-subtitle">
+                                <button>Ver curso</button>
+                            </td>
+                    </tr>
+                </tbody>
+        </table>
         </div>
     </div>
 </main>
-
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->

@@ -1,0 +1,22 @@
+.course-table-subtitle {
+    background-color: white;
+    text-align: center;
+    padding-top: 5%;
+}
+table, th, td {
+    border:1px solid black;
+  }
+.course-panel {
+    width: 100%;
+    text-align: center; /* Align the table at the center */
+}
+.course-table{
+    margin-left: auto;
+    margin-right: auto;
+}
+.course-table-title, .course-table-subtitle{
+    width: 40%;
+}
+.course-table-title{
+    text-align: center;
+}
