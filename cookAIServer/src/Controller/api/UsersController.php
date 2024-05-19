@@ -20,6 +20,7 @@ class UsersController extends AppController
        
         parent::initialize();
         $this->loadComponent('Authentication.Authentication');
+        $this->Authentication->allowUnauthenticated(['sendTopic','getMyTopics','evaluateQuestions']);
     }  
 
     public function sendTopic()
@@ -146,5 +147,33 @@ class UsersController extends AppController
         $question_ids = $this->request->getData("responses");
         $responses = $this->request->getData("responses");
 
+        foreach ($question_ids as $index => $question_id) {
+            // Aquí deberías obtener la pregunta y la respuesta esperada de la entidad de preguntas
+            $questionEntity = $this->fetchTable('Questions')->findById($question_id)->first();
+    
+            if ($questionEntity) {
+                // Obtener la respuesta proporcionada por el usuario
+                $user_response_key = "response_$question_id";
+                $user_response = $responses[$index];
+    
+                // Construir el resultado para esta pregunta
+                $result = [
+                    'question_id' => $questionEntity,
+                    'question' => $questionEntity->pregunta, // Ajusta el nombre del campo según tu entidad de preguntas
+                    'user_response' => $user_response,
+                    'expected_response' => $questionEntity->exp_ans // Ajusta el nombre del campo según tu entidad de preguntas
+                ];
+    
+                // Agregar el resultado al arreglo de resultados
+                $results[] = $result;
+            }
+        }
+        $data = $results;
+
+        $res = $this->response->withStatus(200);
+
+        return $res->withType('application/json')->withStringBody(json_encode($data));
+
+        
     }
 }
