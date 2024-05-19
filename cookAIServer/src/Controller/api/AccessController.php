@@ -63,7 +63,6 @@ class AccessController extends AppController
         $response = $this->response->withStatus(400);
         $data = ['error' => 'Error al crear la cuenta'];
 
-
         $email = $this->request->getData("email");
         $username = $this->request->getData("username");
         $password = $this->request->getData("password");
