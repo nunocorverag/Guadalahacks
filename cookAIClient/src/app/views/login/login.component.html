@@ -22,13 +22,11 @@
                             [ngClass]="{'was-validated': loginForm.submitted}"
                             novalidate>
                             <div class="form-group">
-                                <form #emailForm="ngForm">
                                 <label for="email">Correo</label>
                                 <input class="form-control" type="email"
                                     id="email" name="email" placeholder="email"
                                     ngModel>
                                 <div class="invalid-feedback">El correo es requerido</div>
-                                </form>
                             </div>
                             <div class="form-group">
                                 <label for="password">Contraseña</label>
@@ -40,7 +38,7 @@
                             <br>
                             <div class="d-grip gap-2 mt-2">
                                 <button type="submit"
-                                    class="btn-btn-primary" [disabled]="emailForm.invalid">Submit</button>
+                                    class="btn-btn-primary">Submit</button>
                             </div>
                         </form>
                     </div>
