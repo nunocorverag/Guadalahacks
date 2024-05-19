@@ -1,0 +1,36 @@
+.logbox {
+    // Define measurements
+    max-width: 300px;
+    min-height: 200px;
+    // Center the container horizontally and vertically
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    // Add container styles
+    padding: 20px;
+    border: 1px solid #170101;
+    border-radius: 5px;
+    background-color: #686565;
+  }
+
+.center-content {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.text-center {
+    text-align: center;
+}
+
+.div-separator {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.side-margin {
+    margin-left: 20px;
+    margin-right: 20px;
+}
