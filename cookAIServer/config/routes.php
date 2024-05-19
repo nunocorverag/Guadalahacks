@@ -68,6 +68,14 @@ return function (RouteBuilder $routes): void {
             '/getMyTopics', ['controller'=>'Users', 'action'=>'getMyTopics', 'prefix'=>'api']
         );
 
+        $builder->get(
+            '/getOneTopic/{topic_id}', ['controller'=>'Users', 'action'=>'getOneTopic', 'prefix'=>'api']
+        );
+
+        $builder->get(
+            '/getQuestionsTopic/{topic_id}', ['controller'=>'Users', 'action'=>'getQuestionsTopic', 'prefix'=>'api']
+        );
+
         $builder->post(
             '/evaluateQuestions', ['controller'=>'Users', 'action'=>'evaluateQuestions', 'prefix'=>'api']
         );

@@ -12,6 +12,8 @@ use Cake\ORM\Entity;
  * @property string $username
  * @property string $email
  * @property string $password
+ *
+ * @property \App\Model\Entity\Topic[] $topics
  */
 class User extends Entity
 {
@@ -28,6 +30,7 @@ class User extends Entity
         'username' => true,
         'email' => true,
         'password' => true,
+        'topics' => true,
     ];
 
     /**

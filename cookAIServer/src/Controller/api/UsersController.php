@@ -138,41 +138,182 @@ class UsersController extends AppController
         return $res->withType('application/json')->withStringBody(json_encode($data));
     }
 
-    public function evaluateQuestions(){
+    public function getOneTopic()
+    {
         $user_id = $this->Authentication->getIdentityData("id");
         $res = $this->response->withStatus(400);
         $data = [];
 
-        $question_ids = $this->request->getData("responses");
-        $responses = $this->request->getData("responses");
+        $topic_id = $this->request->getParam("topic_id");
 
+    
+        // Obtener los cursos del usuario autenticado
+        $courseEntity = $this->fetchTable('Topics')->get($topic_id);
+    
+        if($courseEntity){
+            $data = ['course' => $courseEntity];
+            $res = $this->response->withStatus(200);
+        }
+    
+        return $res->withType('application/json')->withStringBody(json_encode($data));
+    }
+
+    public function getQuestionsTopic()
+    {
+        $user_id = $this->Authentication->getIdentityData("id");
+        $res = $this->response->withStatus(400);
+        $data = [];
+    
+        $topic_id = $this->request->getParam("topic_id");
+
+        // Obtener los cursos del usuario autenticado
+        $questionsEntity = $this->fetchTable('Questions')
+                        ->find('all')
+                        ->where(['topic_id' => $topic_id]);
+    
+        if($questionsEntity){
+            $data = ['questions' => $questionsEntity];
+            $res = $this->response->withStatus(200);
+        }
+    
+        return $res->withType('application/json')->withStringBody(json_encode($data));
+    }
+
+    public function evaluateQuestions(){
+        $user_id = $this->Authentication->getIdentityData("id");
+        $res = $this->response->withStatus(400);
+        $data = [];
+    
+        $topic_id = $this->request->getData("topic_id");
+        $question_ids = $this->request->getData("question_ids");
+        $responses = $this->request->getData("responses");
+    
+        $results = []; // Inicializa el arreglo de resultados
+
+        $topicEntity = $this->fetchTable('Topics')->get($topic_id);
+        $topic = $topicEntity->name;
+
+        $evaluation_message = "Estoy realizando un repaso del tema de " . $topic . " podrias calificar mis respuestas con respecto a la respuesta esperada:\n";
+        
         foreach ($question_ids as $index => $question_id) {
             // Aquí deberías obtener la pregunta y la respuesta esperada de la entidad de preguntas
             $questionEntity = $this->fetchTable('Questions')->findById($question_id)->first();
     
             if ($questionEntity) {
                 // Obtener la respuesta proporcionada por el usuario
-                $user_response_key = "response_$question_id";
                 $user_response = $responses[$index];
+                $expected_response = $questionEntity->exp_ans; // Respuesta esperada
     
-                // Construir el resultado para esta pregunta
-                $result = [
-                    'question_id' => $questionEntity,
-                    'question' => $questionEntity->pregunta, // Ajusta el nombre del campo según tu entidad de preguntas
-                    'user_response' => $user_response,
-                    'expected_response' => $questionEntity->exp_ans // Ajusta el nombre del campo según tu entidad de preguntas
-                ];
+                // Construir el mensaje de evaluación para esta pregunta
+                $evaluation_message_for_question = "$question_id.-" . $questionEntity->pregunta . "\n";
+                $evaluation_message_for_question .= "Respuesta mía: $user_response\n";
+                $evaluation_message_for_question .= "Respuesta esperada: $expected_response\n\n";
     
-                // Agregar el resultado al arreglo de resultados
-                $results[] = $result;
+                // Agregar el mensaje de evaluación al arreglo de resultados
+                $results[] = $evaluation_message_for_question;
             }
         }
-        $data = $results;
+    
+        // Concatenar el mensaje de evaluación general con los mensajes de evaluación individuales
+        $evaluation_message .= implode("\n", $results);
+
+        $evaluation_message .= "Podrías darme la respuesta siguiendo el siguiente formato\n: 
+                                ID de pregunta - Score en una escala del 1 al 100\n";
+
+        // // Enviar el mensaje de evaluación al modelo de IA para recibir la respuesta
+        $info = $this->sendRequestToChatGPT($evaluation_message);
+
+        if($info[0] != -1){
+            // Procesar la respuesta del modelo
+            $evaluation_results = [];
+            $lines = explode("\n", $info[1]);
+            foreach ($lines as $line) {
+                // Separar el id de la pregunta y el score
+                $parts = explode("-", $line);
+                $question_id = trim($parts[0]);
+                $score = trim($parts[1]);
+                // Agregar al arreglo de resultados
+                $evaluation_results[] = ['id' => $question_id, 'score' => $score];
+                $questionEntity = $this->fetchTable('Questions')->get($question_id);
+                $questionEntity->score = $score;
+                
+                $result = $this->fetchTable('Questions')->save($questionEntity);
+            }
+    
+            // Aquí puedes hacer lo que necesites con $evaluation_results
+            // Por ejemplo, actualizar la puntuación de las preguntas en la base de datos.
+        } else {
+            $data["error"] = "Fallo al obtener la información de evaluación";
+            return $res->withType('application/json')->withStringBody(json_encode($data));
+        }
+
+        $questionsEntity =$this->fetchTable('Questions')->find('all')->where(['topic_id' => $topic_id]);
+
+        $queryTemas = "Necesito que me propongas 8 temas relacionados al tema " . $topic . " con las preguntas que necesito reforzar dada la siguiente evaluacion: ";
+
+         // Inicializar el string para las preguntas y puntajes
+        $preguntasPuntajesString = '';
+
+        // Obtener las preguntas y sus puntajes
+        $evaluation_results = [];
+        foreach ($questionsEntity as $index => $questionEntity) {
+            // Obtener la pregunta y su puntaje
+            $pregunta = $questionEntity->pregunta;
+            $score = $questionEntity->score;
+            // Concatenar la pregunta y el puntaje al string, incluyendo el número de pregunta
+            $preguntasPuntajesString .= "Pregunta #" . ($index + 1) . ": $pregunta # puntaje obtenido: $score\n";
+            // Agregar al arreglo de resultados
+            $evaluation_results[] = ['index' => $index + 1, 'pregunta' => $pregunta, 'score' => $score];
+        }
+
+        // Concatenar las preguntas y puntajes al mensaje de la consulta
+        $queryTemas .= $preguntasPuntajesString;
+
+        $queryTemas .= "Solo regresame los temas que necesito repasar y separalos por numeracion - tema\n";
+
+        $infoTemas = $this->sendRequestToChatGPT($queryTemas);
+
+
+        if($infoTemas[0] != -1){
+            $temas = [];
+            $temasString = $infoTemas[1];
+            $temasLines = explode("\n", $temasString);
+            foreach ($temasLines as $line) {
+                $parts = explode("- ", $line);
+                if (count($parts) == 2) {
+                    $numero = trim($parts[0]);
+                    $tema = trim($parts[1]);
+                    $temas[$numero] = $tema;
+                    $queryExplicarTema = "Necesito que me expliques detalladamente este tema " . $tema;
+
+                    echo($queryExplicarTema);
+                    $subTemaInfo = $this->sendRequestToChatGPT($queryExplicarTema);
+
+                    if($subTemaInfo[0] != -1){
+                        $subTemaEntity = $this->fetchTable("SubTopics")->newEmptyEntity();
+                        $subTemaEntity->name = $tema;
+                        $subTemaEntity->topic_id = $topic_id; // Asigna el valor correcto de topic_id
+                        echo("Topic id");
+                        echo($topic_id);
+                        $subTemaEntity->status = 0;
+                        var_dump($subTemaEntity);
+                        $subTemaEntity->info = $subTemaInfo[1];
+                        $resultSubTemaEntity = $this->fetchTable('SubTopics')->save($subTemaEntity);
+                    }
+                    else {
+                        $data["error"] = "Fallo al realizar una query para un subtema";
+                        return $res->withType('application/json')->withStringBody(json_encode($data));
+                    }
+                }
+            }
+        } else {
+            $data["error"] = "Fallo al obtener los temas";
+            return $res->withType('application/json')->withStringBody(json_encode($data));
+        }
+
+        $subTemaEntity = $this->fetchTable("SubTopics")->find('all')->where(['topic_id' => $topic_id]);
 
         $res = $this->response->withStatus(200);
-
-        return $res->withType('application/json')->withStringBody(json_encode($data));
-
-        
+        return $res->withType('application/json')->withStringBody(json_encode($subTemaEntity));
     }
 }

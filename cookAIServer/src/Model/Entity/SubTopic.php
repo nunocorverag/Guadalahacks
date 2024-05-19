@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $name
- * @property int $topic_id
+ * @property int|null $topic_id
  * @property bool $status
  * @property string $info
  *

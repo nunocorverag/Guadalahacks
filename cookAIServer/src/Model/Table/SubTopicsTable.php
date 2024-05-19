@@ -11,6 +11,8 @@ use Cake\Validation\Validator;
 /**
  * SubTopics Model
  *
+ * @property \App\Model\Table\TopicsTable&\Cake\ORM\Association\BelongsTo $Topics
+ *
  * @method \App\Model\Entity\SubTopic newEmptyEntity()
  * @method \App\Model\Entity\SubTopic newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\SubTopic> newEntities(array $data, array $options = [])
@@ -43,7 +45,6 @@ class SubTopicsTable extends Table
 
         $this->belongsTo('Topics', [
             'foreignKey' => 'topic_id',
-            'joinType' => 'INNER',
         ]);
     }
 
@@ -63,7 +64,7 @@ class SubTopicsTable extends Table
 
         $validator
             ->integer('topic_id')
-            ->notEmptyString('topic_id');
+            ->allowEmptyString('topic_id');
 
         $validator
             ->boolean('status')

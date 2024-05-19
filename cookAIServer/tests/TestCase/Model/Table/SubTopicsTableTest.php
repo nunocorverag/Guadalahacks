@@ -25,7 +25,7 @@ class SubTopicsTableTest extends TestCase
      */
     protected array $fixtures = [
         'app.SubTopics',
-        'app.Topic',
+        'app.Topics',
     ];
 
     /**
