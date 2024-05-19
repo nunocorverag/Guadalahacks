@@ -27,6 +27,7 @@ export class CoursesComponent {
       {
         next: (response:any)=>{
           this.courses = response.courses
+          console.log(response)
         },
         error: (error:any)=>{
           console.log(error);
