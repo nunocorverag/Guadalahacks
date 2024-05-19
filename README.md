@@ -17,7 +17,7 @@ CookAI es una página web que utiliza una conexión con chatgpt :robot: para pod
   - Nuevamente en la terminal, navegar hasta la carpeta de CookAIServer
       * Dentro de esa carpeta, ejecutar `composer update` :point_left:	
   - Abrir la app de MAMP e iniciar los servidores :nerd_face:	:point_up:
-  - Desde MAMP, abrir php my admin
+  - Desde MAMP, abrir php my admin y cargar la base de datos
   - Dentro de la carpeta de CookAIClient, en la terminal, ejecutar `ng server` :point_left:
   - Entrar al link del localhost que te aparecerá y estarás dentro de la página web :+1:
 
