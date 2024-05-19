@@ -1,213 +1,49 @@
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * Delete the template below * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-<style>
-     :host {
-        --bright-blue: oklch(51.01% 0.274 263.83);
-        --electric-violet: oklch(53.18% 0.28 296.97);
-        --french-violet: oklch(47.66% 0.246 305.88);
-        --vivid-pink: oklch(69.02% 0.277 332.77);
-        --hot-red: oklch(61.42% 0.238 15.34);
-        --orange-red: oklch(63.32% 0.24 31.68);
-        --gray-900: oklch(19.37% 0.006 300.98);
-        --gray-700: oklch(36.98% 0.014 302.71);
-        --gray-400: oklch(70.9% 0.015 304.04);
-        --red-to-pink-to-purple-vertical-gradient: linear-gradient( 180deg, var(--orange-red) 0%, var(--vivid-pink) 50%, var(--electric-violet) 100%);
-        --red-to-pink-to-purple-horizontal-gradient: linear-gradient( 90deg, var(--orange-red) 0%, var(--vivid-pink) 50%, var(--electric-violet) 100%);
-        --pill-accent: var(--bright-blue);
-        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        box-sizing: border-box;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-    
-    h1 {
-        font-size: 3.125rem;
-        color: var(--gray-900);
-        font-weight: 500;
-        line-height: 100%;
-        letter-spacing: -0.125rem;
-        margin: 0;
-        font-family: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    }
-    
-    p {
-        margin: 0;
-        color: var(--gray-700);
-    }
-    
-    main {
-        width: 100%;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 1rem;
-        box-sizing: inherit;
-        position: relative;
-    }
-    
-    .header {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem 0;
-    }
-    
-    .header h1 {
-        margin: 0;
-    }
-    
-    .header .logo-and-search {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-    
-    .header .consult-button-group {
-        margin-left: auto;
-    }
-    
-    .header form {
-        display: flex;
-        gap: 0.5rem;
-    }
-    
-    .container {
-        width: 100%;
-        max-width: 1250px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .course-panel {
-        width: 100%;
-        text-align: left;
-    }
-    
-    .course-panel h2 {
-        margin-top: 1.75rem;
-    }
-    
-    .course-panel h3 {
-        margin-top: 1.5rem;
-    }
-    
-    .consult-text {
-        font-size: 0.875rem;
-        /* Tamaño de texto disminuido */
-        margin-bottom: 0.5rem;
-        /* Espacio entre el texto y el botón */
-    }
-    
-    @media screen and (max-width: 650px) {
-        .content {
-            flex-direction: column;
-            width: max-content;
-        }
-        .divider {
-            height: 1px;
-            width: 100%;
-            background: var(--red-to-pink-to-purple-horizontal-gradient);
-            margin-block: 1.5rem;
-        }
-        .header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        .header .consult-button-group {
-            margin-left: 0;
-            margin-top: 1rem;
-            align-self: stretch;
-            display: flex;
-            justify-content: flex-end;
-            width: 100%;
-        }
-        .header form {
-            width: 100%;
-        }
-        .container {
-            width: 100%;
-            max-width: 1250px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .course-panel {
-            width: 100%;
-            align-items: center;
-        }
-        .course-panel h2 {
-            margin-top: 1.75rem;
-        }
-        .course-panel h3 {
-            margin-top: 1.5rem;
-        }
-    }
-</style>
-
 <main class="main">
     <header class="header">
-        <div class="logo-and-search">
-            <h1 class="our-name">
-                CookAi
-            </h1>
-            <form action="" class="courses-search">
-                <input type="text" name="searching" id="textInput" placeholder="Buscar en mis cursos...">
-                <button type="submit">Buscar</button>
-            </form>
-        </div>
-        <div class="consult-button-group">
-            <form action="" class="make-consult">
-                <p class="consult-text">¿Buscas realizar un nuevo curso?</p>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Realiza una consulta</button>
-            </form>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="our-name text-center">
+                        <!-- Added text-center class -->
+                        CookAi
+                    </h1>
+                </div>
+                <div class="col-md-6">
+                    <form action="" class="d-flex justify-content-end align-items-center">
+                        <p class="consult-text p-0 m-0">¿Buscas realizar un nuevo curso?</p>
+                        <button class="mx-2 btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Realiza una consulta</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </header>
     <div class="container">
-        <div class="my-courses-title-group">
+        <div class="my-courses-title-group text-center">
+            <!-- Added text-center class -->
             <h2 class="my-courses-title">
                 Mis cursos
             </h2>
         </div>
-        <div class="course-panel">
-            <table class="course-table">
-                <thead>
-                    <tr class="course-table-title">
-                        <th class="course-table-title">
-                            <h4 class="courses">
-                                Nombre:
-                            </h4>
-                        </th>
-                        <th class="course-table-title">
-                            <h4 class="courses">
-                                Progreso:
-                            </h4>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody *ngFor="let course of courses" class="course-table-subtitle">
-                    <tr>
-                        <td class="course-table-subtitle">
-                            {{course.name}}
-                        </td>
-                        <td class="course-table-subtitle">
-                            {{course.progress}}
-                        </td>
-                        <td class="course-table-subtitle">
-                            <button>Ver curso</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="row justify-content-center">
+            <!-- Added justify-content-center class -->
+            <div *ngFor="let course of courses" class="col-sm-6 col-md-4 mb-4">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h5 class="card-title">{{ course.name }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Progreso: {{ course.progress }} %</p>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <button [routerLink]="['/topic', course.id]" class="btn btn-secondary w-100 mx-1 mb-2 mb-sm-0">Quiz</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button [routerLink]="['/study', course.id]" class="btn btn-primary w-100 mx-1">Repaso</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </main>
@@ -217,17 +53,19 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Realizar consulta</h1>
+                <h5 class="modal-title" id="exampleModalLabel">Realizar consulta</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p class="text-center">Introduce el tema a consultar</p>
-                <form (ngSubmit)="realizarConsulta()" [ngClass]="{'was-validated': consultaForm.submitted}" id="editarVehiculoForm" #consultaForm="ngForm" autocomplete="off" novalidate>
-                    <input ngModel type="text" class="form-control" maxlength="50" name="topic" id="topicAdd" required [disabled]="loading">
+                <form (ngSubmit)="realizarConsulta()" [ngClass]="{ 'was-validated': consultaForm.submitted}" id="editarVehiculoForm" #consultaForm="ngForm" autocomplete="off" novalidate>
+                    <input ngModel type="text" class="form-control mb-3" maxlength="50" name="topic" id="topicAdd" required [disabled]="loading">
                     <div class="invalid-feedback"> La consulta es requerida. </div>
-                    <br>
-                    <button #closeQueryModal type="button" class="btn btn-secondary my-2" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Consultar</button>
+                    <div class="d-flex justify-content-end">
+                        <button #closeQueryModal type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Consultar</button>
+                    </div>
+
                 </form>
                 <div *ngIf="loading" class="progress mt-3" role="progressbar" aria-label="Animated striped example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                     <div class="progress-bar progress-bar-striped progress-bar-animated w-100"></div>

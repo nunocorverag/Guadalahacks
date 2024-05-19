@@ -67,4 +67,12 @@ export class CoursesService {
     }
     return this.http.post(link, body, {headers});
   }
+
+  public getSubTopics(id:any): any {
+    let link: string = Constantes.CAKE + "api/getSubTopics/" + id;
+    let api_key:any = this.token;
+    console.log(this.token)
+    let headers = new HttpHeaders().set('Authorization', `Bearer ${api_key}`);
+    return this.http.get(link, {headers});
+   }
 }

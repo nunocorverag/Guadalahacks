@@ -76,6 +76,10 @@ return function (RouteBuilder $routes): void {
             '/getQuestionsTopic/{topic_id}', ['controller'=>'Users', 'action'=>'getQuestionsTopic', 'prefix'=>'api']
         );
 
+        $builder->get(
+            '/getSubTopics/{topic_id}', ['controller'=>'Users', 'action'=>'getSubTopics', 'prefix'=>'api']
+        );
+
         $builder->post(
             '/evaluateQuestions', ['controller'=>'Users', 'action'=>'evaluateQuestions', 'prefix'=>'api']
         );

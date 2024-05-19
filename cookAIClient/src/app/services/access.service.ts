@@ -30,8 +30,8 @@ export class AccessService {
     let headers:any={};
     let body = {
       email: email,
-      pass: pass
+      password: pass
     }
-    return this.http.post(link, body, headers);
+    return this.http.post(link, body, {headers});
   }
 }

@@ -1,13 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { CoursesService } from '../../services/courses.service';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-topic',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterOutlet, RouterLink],
   templateUrl: './topic.component.html',
   styleUrl: './topic.component.scss'
 })
@@ -19,7 +19,7 @@ export class TopicComponent {
   respuestas:Array<any> = [];
   course_id:string = "-1";
   question_ids:Array<any> = [];
-  constructor(private corSrv:CoursesService, private route:ActivatedRoute){
+  constructor(private router:Router, private corSrv:CoursesService, private route:ActivatedRoute){
 
   }
 
@@ -78,10 +78,12 @@ export class TopicComponent {
       next:(response:any)=>{
         console.log(response);
         this.loading = false;
+        this.router.navigate(["study",this.course_id]);
       },
       error:(err:any)=>{
         console.log(err.error)
         this.loading = false;
+        this.router.navigate(["study",this.course_id]);
       }
     })
     console.log(this.respuestas);

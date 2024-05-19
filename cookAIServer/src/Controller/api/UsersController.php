@@ -180,6 +180,21 @@ class UsersController extends AppController
         return $res->withType('application/json')->withStringBody(json_encode($data));
     }
 
+    public function getSubTopics(){
+        $user_id = $this->Authentication->getIdentityData("id");
+        $res = $this->response->withStatus(400);
+        $data = [];
+    
+        $topic_id = $this->request->getParam("topic_id");
+
+        $subTopicEntity = $this->fetchTable('SubTopics')->find('all')->where(['topic_id' => $topic_id]);
+        if($subTopicEntity){
+            $data = ['subTopics' => $subTopicEntity];
+            $res = $this->response->withStatus(200);
+        }
+        return $res->withType('application/json')->withStringBody(json_encode($data));
+    }
+
     public function evaluateQuestions(){
         $user_id = $this->Authentication->getIdentityData("id");
         $res = $this->response->withStatus(400);
@@ -250,7 +265,7 @@ class UsersController extends AppController
 
         $questionsEntity =$this->fetchTable('Questions')->find('all')->where(['topic_id' => $topic_id]);
 
-        $queryTemas = "Necesito que me propongas 8 temas relacionados al tema " . $topic . " con las preguntas que necesito reforzar dada la siguiente evaluacion: ";
+        $queryTemas = "Necesito que me propongas 5 temas relacionados al tema " . $topic . " con las preguntas que necesito reforzar dada la siguiente evaluacion: ";
 
          // Inicializar el string para las preguntas y puntajes
         $preguntasPuntajesString = '';
