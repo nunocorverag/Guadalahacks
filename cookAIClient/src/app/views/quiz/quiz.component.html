@@ -1,0 +1,14 @@
+<main class="main">
+    <header class="header">
+        <h1>Quiz</h1>
+        <div class="logo-and-search">
+            <form (ngSubmit)="onSubmit()" #form="ngForm">
+                <div *ngFor="let pregunta of preguntas; let i = index">
+                    <h2>{{ pregunta }}</h2>
+                    <input type="text" [name]="'input' + i" [id]="'input' + i" [(ngModel)]="consultar[i]">
+                </div>
+                <button type="submit">Checar</button>
+            </form>
+        </div>
+    </header>
+</main>
