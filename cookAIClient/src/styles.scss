@@ -1,7 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import '@angular/material/prebuilt-themes/purple-green.css';
+@import 'font-awesome/css/font-awesome.min.css';
 @import 'ngx-toastr/toastr';
 @import 'bootstrap/scss/bootstrap';
+/*@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~ngx-toastr/toastr.css';*/
+
+
 html,
 body {
     height: 100%;
