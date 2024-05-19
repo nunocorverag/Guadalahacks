@@ -62,6 +62,11 @@ return function (RouteBuilder $routes): void {
             '/sendRequestToChatGPT', ['controller'=>'Users', 'action'=>'sendRequestToChatGPT']
         );
 
+
+        // Topics
+        $builder->get(
+            '/getMyTopics', ['controller'=>'Users', 'action'=>'getMyTopics', 'prefix'=>'api']
+        );
         // Users
         $builder->post(
             '/register', ['controller'=>'Access', 'action'=>'register', 'prefix'=>'api']
@@ -72,7 +77,7 @@ return function (RouteBuilder $routes): void {
         );
 
         $builder->post(
-            '/sendTheme', ['controller'=>'Users', 'action'=>'sendTheme', 'prefix'=>'api']
+            '/sendTopic', ['controller'=>'Users', 'action'=>'sendTopic', 'prefix'=>'api']
         );
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
