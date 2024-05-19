@@ -11,8 +11,6 @@ use Cake\Validation\Validator;
 /**
  * SubTopics Model
  *
- * @property \App\Model\Table\TopicTable&\Cake\ORM\Association\BelongsTo $Topic
- *
  * @method \App\Model\Entity\SubTopic newEmptyEntity()
  * @method \App\Model\Entity\SubTopic newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\SubTopic> newEntities(array $data, array $options = [])
@@ -43,7 +41,7 @@ class SubTopicsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Topic', [
+        $this->belongsTo('Topics', [
             'foreignKey' => 'topic_id',
             'joinType' => 'INNER',
         ]);
@@ -89,7 +87,7 @@ class SubTopicsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['topic_id'], 'Topic'), ['errorField' => 'topic_id']);
+        $rules->add($rules->existsIn(['topic_id'], 'Topics'), ['errorField' => 'topic_id']);
 
         return $rules;
     }
