@@ -1,0 +1,24 @@
+.logbox {
+    // Define measurements
+    max-width: 300px;
+    min-height: 200px;
+    // Center the container horizontally and vertically
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    // Add container styles
+    padding: 20px;
+    border: 1px solid #170101;
+    border-radius: 5px;
+    background-color: #686565;
+  }
+
+
+.center-text {
+    position: absolute;
+    top:30%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
