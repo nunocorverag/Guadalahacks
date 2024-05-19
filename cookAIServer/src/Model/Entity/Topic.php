@@ -11,9 +11,10 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property float $progress
- * @property int $userId
+ * @property int $user_id
  *
- * @property \App\Model\Entity\Question[] $question
+ * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\Question[] $questions
  * @property \App\Model\Entity\SubTopic[] $sub_topics
  */
 class Topic extends Entity
@@ -30,8 +31,9 @@ class Topic extends Entity
     protected array $_accessible = [
         'name' => true,
         'progress' => true,
-        'userId' => true,
-        'question' => true,
+        'user_id' => true,
+        'user' => true,
+        'questions' => true,
         'sub_topics' => true,
     ];
 }
