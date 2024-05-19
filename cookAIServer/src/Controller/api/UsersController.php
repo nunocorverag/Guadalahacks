@@ -28,7 +28,11 @@ class UsersController extends AppController
         $topic = $this->request->getData("topic");
         $res = $this->response->withStatus(400);
     
-        $query = "Genera una evaluación inicial del tema " . $topic . " con un total de 15 preguntas divididas en 3 secciones de igual tamaño donde la dificultad sea de facil a intermedio a dificil y específica de que tema se trata cada pregunta. No generes las respuestas a la pregunta.";
+        $query = "Genera una evaluación inicial del tema. " . $topic . " con un total de 15 preguntas divididas en 3 secciones de igual tamaño donde la dificultad sea de fácil a intermedio a difícil y específica de qué tema se trata cada pregunta. A su vez asegúrate de agregar una respuesta esperada a cada pregunta. Devuélveme el siguiente formato: 
+            Sección Tipo
+            1.- Pregunta
+            Respuesta esperada
+            Así hasta haber generado las 3 secciones de fácil, intermedio, difícil con 5 preguntas cada una.";
     
         $data = [];
         $GPTResp = $this->sendRequestToChatGPT($query);
@@ -47,29 +51,63 @@ class UsersController extends AppController
         if ($result) {
             $res = $this->response->withStatus(200);
             $data['info'] = $result;
-            
+    
             // Procesar la respuesta de GPT
             $GPTResponse = $GPTResp[1];
             $preguntas = [];
             
-            $secciones = explode("\n\nSección", $GPTResponse);
+            $secciones = preg_split('/\n\nSección/', $GPTResponse, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($secciones as $seccion) {
-                if (strpos($seccion, 'Fácil') !== false) {
-                    $dificultad = "Fácil";
-                } elseif (strpos($seccion, 'Intermedio') !== false) {
-                    $dificultad = "Intermedio";
-                } elseif (strpos($seccion, 'Difícil') !== false) {
-                    $dificultad = "Difícil";
+                $lines = explode("\n", trim($seccion));
+                $dificultad_line = trim(array_shift($lines));
+    
+                // Mapear la dificultad a solo "Fácil", "Intermedio" o "Difícil"
+                if (stripos($dificultad_line, 'Fácil') !== false) {
+                    $dificultad = 'Fácil';
+                } elseif (stripos($dificultad_line, 'Intermedio') !== false) {
+                    $dificultad = 'Intermedio';
+                } elseif (stripos($dificultad_line, 'Difícil') !== false) {
+                    $dificultad = 'Difícil';
                 } else {
-                    continue;
+                    continue; // Saltar secciones que no coincidan con las dificultades esperadas
                 }
+    
+                foreach ($lines as $index => $line) {
+                    if (preg_match('/^\d+\.- (.+)$/', $line, $pregunta_match)) {
+                        $pregunta = $pregunta_match[1];
+                        $respuesta_esperada = trim($lines[$index + 1] ?? '');
+                        if (strpos($respuesta_esperada, 'Respuesta esperada: ') === 0) {
+                            $respuesta_esperada = substr($respuesta_esperada, 18);
+                        }
+                        $preguntas[] = [
+                            'dificultad' => $dificultad,
+                            'pregunta' => $pregunta,
+                            'respuesta_esperada' => $respuesta_esperada
+                        ];
                 
-                preg_match_all('/\d+\. (.+)/', $seccion, $matches);
-                foreach ($matches[1] as $pregunta) {
-                    $preguntas[] = [
-                        'dificultad' => $dificultad,
-                        'pregunta' => $pregunta
-                    ];
+                        // Crear la entidad de pregunta y guardarla en la base de datos
+                        $preguntaEntity = $this->fetchTable('Questions')->newEmptyEntity();
+                        $preguntaEntity->pregunta = $pregunta;
+                        // Asignar el ID del tema a la pregunta
+                        $preguntaEntity->topic_id = $topicEntity->id;
+                        // Mapear la dificultad a valores numéricos
+                        switch ($dificultad) {
+                            case 'Fácil':
+                                $preguntaEntity->dificultad = 1;
+                                break;
+                            case 'Intermedio':
+                                $preguntaEntity->dificultad = 2;
+                                break;
+                            case 'Difícil':
+                                $preguntaEntity->dificultad = 3;
+                                break;
+                        }
+                        $preguntaEntity->exp_ans = $respuesta_esperada;
+                        $preguntaEntity->score = 0;
+                        $preguntaEntity->alternative = 0;
+                        // Guardar la entidad de pregunta en la base de datos
+                        $this->fetchTable('Questions')->save($preguntaEntity);
+                    }
                 }
             }
     
@@ -105,6 +143,7 @@ class UsersController extends AppController
         $res = $this->response->withStatus(400);
         $data = [];
 
+        $question_ids = $this->request->getData("responses");
         $responses = $this->request->getData("responses");
 
     }
