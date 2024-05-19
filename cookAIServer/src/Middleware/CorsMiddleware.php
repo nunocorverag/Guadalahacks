@@ -22,27 +22,24 @@ class CorsMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        // Handle the preflight OPTIONS request
+        if (strtoupper($request->getMethod()) === 'OPTIONS') {
+            $response = (new \Laminas\Diactoros\Response())
+                ->withHeader('Access-Control-Allow-Origin', '*')
+                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
+                ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+                ->withHeader('Access-Control-Max-Age', '86400')
+                ->withStatus(200, 'OK');
+            return $response;
+        }
+
+        // Handle the actual request
         $response = $handler->handle($request);
 
-        $response = $response
+        return $response
             ->withHeader('Access-Control-Allow-Origin', '*')
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
             ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
             ->withHeader('Access-Control-Max-Age', '86400');
-        
-         $response =$response->cors($request)
-             ->allowOrigin(['*'])
-             ->allowMethods(['GET', 'POST', 'DELETE', 'HEAD', 'PUT', 'OPTIONS'])
-             ->allowHeaders(['Origin', 'X-Requested-With', 'Content-Type', 'Authorization'])
-             ->allowCredentials()
-             ->build();
-            if (strtoupper($request->getMethod()) === 'OPTIONS') {
-                $response = $response
-                    
-                    ->withStatus(200,__('Say cheese!'));
-            }
-        return $response;
     }
-
-
 }
