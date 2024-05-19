@@ -9,9 +9,10 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Topic Model
+ * Topics Model
  *
- * @property \App\Model\Table\QuestionTable&\Cake\ORM\Association\HasMany $Question
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\QuestionsTable&\Cake\ORM\Association\HasMany $Questions
  * @property \App\Model\Table\SubTopicsTable&\Cake\ORM\Association\HasMany $SubTopics
  *
  * @method \App\Model\Entity\Topic newEmptyEntity()
@@ -28,7 +29,7 @@ use Cake\Validation\Validator;
  * @method iterable<\App\Model\Entity\Topic>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Topic>|false deleteMany(iterable $entities, array $options = [])
  * @method iterable<\App\Model\Entity\Topic>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Topic> deleteManyOrFail(iterable $entities, array $options = [])
  */
-class TopicTable extends Table
+class TopicsTable extends Table
 {
     /**
      * Initialize method
@@ -40,11 +41,15 @@ class TopicTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('topic');
+        $this->setTable('topics');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->hasMany('Question', [
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->hasMany('Questions', [
             'foreignKey' => 'topic_id',
         ]);
         $this->hasMany('SubTopics', [
@@ -72,10 +77,23 @@ class TopicTable extends Table
             ->notEmptyString('progress');
 
         $validator
-            ->integer('userId')
-            ->requirePresence('userId', 'create')
-            ->notEmptyString('userId');
+            ->integer('user_id')
+            ->notEmptyString('user_id');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->existsIn(['user_id'], 'Users'), ['errorField' => 'user_id']);
+
+        return $rules;
     }
 }

@@ -40,6 +40,10 @@ class UsersTable extends Table
         $this->setTable('users');
         $this->setDisplayField('username');
         $this->setPrimaryKey('id');
+
+        $this->hasMany('Topics', [
+            'foreignKey' => 'user_id',
+        ]);
     }
 
     /**

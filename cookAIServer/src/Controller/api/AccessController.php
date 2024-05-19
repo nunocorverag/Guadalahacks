@@ -60,8 +60,7 @@ class AccessController extends AppController
     }
 
     public function register(){
-        $response = $this->response;
-        $response = $response->withStatus(400);
+        $response = $this->response->withStatus(400);
         $data = ['error' => 'Error al crear la cuenta'];
 
 
@@ -77,14 +76,11 @@ class AccessController extends AppController
         $user->email = $email;
         $user->username = $username;
         $user->password = $hashedPassword;
-        var_dump($user);
-
         $newData = $this->fetchTable('Users')->save($user);
 
-        var_dump($newData);
         if ($newData) {
-            $response = $response->withStatus(200);
-            $data = ['message' => 'Usuario creado correctamente'];
+            $response = $this->response->withStatus(200);
+            $data['info'] = $newData;
         }
 
         $response = $response->withType('application/json')->withStringBody(json_encode($data));

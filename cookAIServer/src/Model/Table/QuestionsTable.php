@@ -9,9 +9,9 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Question Model
+ * Questions Model
  *
- * @property \App\Model\Table\TopicTable&\Cake\ORM\Association\BelongsTo $Topic
+ * @property \App\Model\Table\TopicsTable&\Cake\ORM\Association\BelongsTo $Topics
  *
  * @method \App\Model\Entity\Question newEmptyEntity()
  * @method \App\Model\Entity\Question newEntity(array $data, array $options = [])
@@ -27,7 +27,7 @@ use Cake\Validation\Validator;
  * @method iterable<\App\Model\Entity\Question>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Question>|false deleteMany(iterable $entities, array $options = [])
  * @method iterable<\App\Model\Entity\Question>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Question> deleteManyOrFail(iterable $entities, array $options = [])
  */
-class QuestionTable extends Table
+class QuestionsTable extends Table
 {
     /**
      * Initialize method
@@ -39,11 +39,11 @@ class QuestionTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('question');
+        $this->setTable('questions');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Topic', [
+        $this->belongsTo('Topics', [
             'foreignKey' => 'topic_id',
             'joinType' => 'INNER',
         ]);
@@ -98,7 +98,7 @@ class QuestionTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['topic_id'], 'Topic'), ['errorField' => 'topic_id']);
+        $rules->add($rules->existsIn(['topic_id'], 'Topics'), ['errorField' => 'topic_id']);
 
         return $rules;
     }
