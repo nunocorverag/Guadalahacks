@@ -13,6 +13,7 @@ export class AppComponent {
   @ViewChild("Reguisterform") Reguisterform:any;
   title = 'cookAIClient';
   reguister(){
+    console.log(this.Reguisterform)
     let name= this.Reguisterform.controls.name.value;
     let email= this.Reguisterform.controls.email.value;
     let password= this.Reguisterform.controls.password.value;
