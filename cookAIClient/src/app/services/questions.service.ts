@@ -15,6 +15,14 @@ export class QuestionsService {
     }
   }
 
+  public obtenerpreguntas():any{
+    let link: string=Constantes.CAKE+"api/sendRequestToChatGPT";
+    let headers = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer "
+    }
+  }
+
   public obtenerreesulatods(): any {
     let link: string = Constantes.CAKE + "api/getMyTopics";
     let api_key:any = this.token;
